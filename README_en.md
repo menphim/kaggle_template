@@ -39,12 +39,34 @@ source .venv/bin/activate
 # Download competition data
 python scripts/download_data.py [competition-name]
 
+# Download with organized folder structure (recommended)
+python scripts/download_data.py [competition-name] --organize
+
 # Download dataset
 python scripts/download_data.py --dataset [username/dataset-name]
 
 # List available competitions
 python scripts/download_data.py --list
+
+# Use Kaggle CLI directly
+kaggle competitions download -c [competition-name] -p data/raw
+kaggle datasets download [username/dataset-name] -p data/external
 ```
+
+### Notebook Acquisition and Utilization
+
+```bash
+# Search competition notebooks
+python scripts/download_data.py --list-notebooks [competition-name]
+
+# Download notebook
+python scripts/download_data.py --notebook [username/notebook-name]
+
+# Direct Kaggle CLI notebook download
+kaggle kernels pull [username/notebook-name] -p notebooks/reference
+```
+
+For detailed Kaggle API usage, see **[KAGGLE_API_GUIDE.md](KAGGLE_API_GUIDE.md)**.
 
 ### Launch Jupyter Notebook
 
@@ -64,17 +86,28 @@ jupyter lab
 ```
 kaggle-template/
 ├── data/
-│   ├── raw/          # Raw data
-│   ├── processed/    # Processed data
-│   └── external/     # External datasets
-├── notebooks/        # Jupyter notebooks
-├── models/           # Trained models
-├── output/           # Submission files
-├── logs/             # Log files
-├── configs/          # Configuration files
-├── scripts/          # Utility scripts
-├── pyproject.toml    # Project configuration
-├── CLAUDE.md         # Claude Code guidance
+│   ├── raw/              # Raw data (basic)
+│   ├── competitions/     # Competition-specific data (when using --organize)
+│   │   ├── titanic/      # Example: Titanic competition
+│   │   └── housing/      # Example: Housing price prediction
+│   ├── processed/        # Processed data
+│   └── external/         # External datasets
+├── notebooks/            # Jupyter notebooks
+│   ├── reference/        # Downloaded notebooks
+│   └── [your_work]/      # Your working notebooks
+├── docs/                 # Documentation
+│   ├── competitions/     # Competition overviews and rules
+│   ├── papers/           # Reference papers
+│   ├── references/       # Reference materials
+│   └── notes/            # Notes and ideas
+├── models/               # Trained models
+├── output/               # Submission files
+├── logs/                 # Log files
+├── configs/              # Configuration files
+├── scripts/              # Utility scripts
+├── pyproject.toml        # Project configuration
+├── CLAUDE.md             # Claude Code guidance
+├── KAGGLE_API_GUIDE.md   # Kaggle API usage guide
 └── README.md
 ```
 
@@ -118,17 +151,48 @@ pytest
 
 ## Example Usage
 
-1. Start a new competition:
+### Basic Workflow
+
+1. **Start a new competition**:
    ```bash
-   python scripts/download_data.py titanic
+   # Download data with organized folder structure
+   python scripts/download_data.py titanic --organize
+   
+   # Search and download reference notebooks
+   python scripts/download_data.py --list-notebooks titanic
+   python scripts/download_data.py --notebook username/titanic-eda
    ```
 
-2. Begin EDA with Jupyter notebook:
+2. **Begin EDA and analysis**:
    ```bash
-   jupyter lab
+   # Launch Jupyter
+   jupyter notebook notebooks/
+   
+   # Review reference notebooks, then create your own
+   # Data path example: data/competitions/titanic/train.csv
    ```
 
-3. Train models and generate submission files
+3. **Model training and submission**:
+   ```bash
+   # After training models, generate submission file
+   # Example: output/submission.csv
+   
+   # Submit to Kaggle
+   kaggle competitions submit output/submission.csv -c titanic -m "My submission"
+   ```
+
+### Multi-source Data Utilization
+
+```bash
+# Main competition data
+python scripts/download_data.py house-prices-advanced-regression-techniques --organize
+
+# Additional datasets
+python scripts/download_data.py --dataset username/additional-housing-data
+
+# Reference notebooks
+python scripts/download_data.py --notebook username/housing-price-eda
+```
 
 ## Features
 

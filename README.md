@@ -39,12 +39,34 @@ source .venv/bin/activate
 # コンペティションデータのダウンロード
 python scripts/download_data.py [competition-name]
 
-# データセットのダウンロード
+# 整理されたフォルダ構造でダウンロード（推奨）
+python scripts/download_data.py [competition-name] --organize
+
+# データセットのダウンロード  
 python scripts/download_data.py --dataset [username/dataset-name]
 
 # 利用可能なコンペティション一覧
 python scripts/download_data.py --list
+
+# 直接Kaggle CLIを使用
+kaggle competitions download -c [competition-name] -p data/raw
+kaggle datasets download [username/dataset-name] -p data/external
 ```
+
+### Notebookの取得と活用
+
+```bash
+# コンペティション用ノートブック検索
+python scripts/download_data.py --list-notebooks [competition-name]
+
+# ノートブックのダウンロード
+python scripts/download_data.py --notebook [username/notebook-name]
+
+# 直接Kaggle CLIでノートブック取得
+kaggle kernels pull [username/notebook-name] -p notebooks/reference
+```
+
+詳細なKaggle API使用方法は **[KAGGLE_API_GUIDE.md](KAGGLE_API_GUIDE.md)** を参照してください。
 
 ### Jupyter Notebookの起動
 
@@ -64,15 +86,28 @@ jupyter lab
 ```
 kaggle-template/
 ├── data/
-│   ├── raw/          # 生データ
-│   ├── processed/    # 前処理済みデータ
-│   └── external/     # 外部データセット
-├── notebooks/        # Jupyter notebooks
-├── models/           # 学習済みモデル
-├── output/           # 提出ファイル
-├── logs/             # ログファイル
-├── scripts/          # ユーティリティスクリプト
-├── pyproject.toml    # プロジェクト設定
+│   ├── raw/              # 生データ（基本）
+│   ├── competitions/     # コンペティション別データ（--organize使用時）
+│   │   ├── titanic/      # 例：Titanicコンペ
+│   │   └── housing/      # 例：住宅価格予測
+│   ├── processed/        # 前処理済みデータ
+│   └── external/         # 外部データセット
+├── notebooks/            # Jupyter notebooks
+│   ├── reference/        # ダウンロードしたnotebook
+│   └── [your_work]/      # 作業用notebook
+├── docs/                 # ドキュメント
+│   ├── competitions/     # コンペ概要・ルール
+│   ├── papers/           # 参考論文
+│   ├── references/       # 参考資料
+│   └── notes/            # メモ・アイデア
+├── models/               # 学習済みモデル
+├── output/               # 提出ファイル
+├── logs/                 # ログファイル
+├── configs/              # 設定ファイル
+├── scripts/              # ユーティリティスクリプト
+├── pyproject.toml        # プロジェクト設定
+├── CLAUDE.md             # Claude Code用設定
+├── KAGGLE_API_GUIDE.md   # Kaggle API詳細ガイド
 └── README.md
 ```
 
@@ -116,17 +151,48 @@ pytest
 
 ## 使用例
 
-1. 新しいコンペティションを開始:
+### 基本的なワークフロー
+
+1. **新しいコンペティションを開始**:
    ```bash
-   python scripts/download_data.py titanic
+   # 整理されたフォルダ構造でデータダウンロード
+   python scripts/download_data.py titanic --organize
+   
+   # 参考ノートブック検索・ダウンロード
+   python scripts/download_data.py --list-notebooks titanic
+   python scripts/download_data.py --notebook username/titanic-eda
    ```
 
-2. Jupyter notebookでEDAを開始:
+2. **EDAと分析開始**:
    ```bash
-   jupyter notebook
+   # Jupyter起動
+   jupyter notebook notebooks/
+   
+   # 参考ノートブックを確認後、自分用に作成
+   # データパス例: data/competitions/titanic/train.csv
    ```
 
-3. モデルの訓練と提出ファイルの生成を行う
+3. **モデル訓練と提出**:
+   ```bash
+   # モデル訓練後、提出ファイル生成
+   # 例: output/submission.csv
+   
+   # Kaggleに提出
+   kaggle competitions submit output/submission.csv -c titanic -m "My submission"
+   ```
+
+### 複数データソース活用例
+
+```bash
+# メインコンペデータ
+python scripts/download_data.py house-prices-advanced-regression-techniques --organize
+
+# 追加データセット
+python scripts/download_data.py --dataset username/additional-housing-data
+
+# 参考ノートブック
+python scripts/download_data.py --notebook username/housing-price-eda
+```
 
 ## 特徴
 
