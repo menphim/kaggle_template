@@ -1,0 +1,166 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+# Uncomment the line below if you want to ignore all notebooks
+# *.ipynb
+
+# Data files (keep directory structure but ignore contents)
+data/raw/*
+data/processed/*
+data/external/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+!data/external/.gitkeep
+
+# Models (keep directory structure but ignore contents)
+models/*
+!models/.gitkeep
+
+# Output files (keep directory structure but ignore contents)
+output/*
+!output/.gitkeep
+
+# Logs (keep directory structure but ignore contents)
+logs/*
+!logs/.gitkeep
+
+# IDE and Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.spyderproject
+.spyproject
+.ropeproject
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Kaggle API credentials
+kaggle.json
+
+# Environment variables
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Package manager files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# UV lock file (uncomment if you want to ignore it)
+# uv.lock
+
+# Temporary files
+*.tmp
+*.temp
+.tmp/
+.temp/
+
+# Backup files
+*.bak
+*.backup
+*~
+
+# Pytest
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+
+# MyPy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# pytype static type analyzer
+.pytype/
+
+# Cython debug symbols
+cython_debug/
+
+# MLflow
+mlruns/
+mlartifacts/
+
+# Weights & Biases
+wandb/
+
+# TensorBoard logs
+runs/
+tensorboard_logs/
+
+# Model checkpoints and artifacts
+*.pth
+*.pkl
+*.joblib
+*.h5
+*.hdf5
+*.onnx
+
+# Large data files
+*.csv
+*.json
+*.parquet
+*.feather
+*.zip
+*.tar.gz
+*.rar
+*.7z
+
+# Configuration files with sensitive data
+config.ini
+secrets.yaml
+credentials.json
+
+# Docker
+.dockerignore
+Dockerfile
+docker-compose.yml
+
+# Documentation build
+docs/_build/

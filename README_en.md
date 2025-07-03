@@ -4,13 +4,24 @@ A template project for Kaggle competitions using UV and Kaggle API.
 
 ## Setup
 
+### Prerequisites
+
+- Python 3.10+
+- Internet connection (for initial setup)
+- Kaggle account
+
 ### 1. Environment Initialization
 
 ```bash
-# Run setup script
+# Run setup script (takes 5-10 minutes on first run)
 bash scripts/setup_environment.sh
 
 # Activate virtual environment
+source .venv/bin/activate
+
+# Or use uv directly:
+export PATH="$HOME/.local/bin:$PATH"
+uv sync
 source .venv/bin/activate
 ```
 
@@ -38,7 +49,14 @@ python scripts/download_data.py --list
 ### Launch Jupyter Notebook
 
 ```bash
+# After activating virtual environment
+source .venv/bin/activate
+
+# Start Jupyter Notebook
 jupyter notebook
+
+# Or start Jupyter Lab
+jupyter lab
 ```
 
 ## Project Structure
@@ -53,33 +71,49 @@ kaggle-template/
 ├── models/           # Trained models
 ├── output/           # Submission files
 ├── logs/             # Log files
+├── configs/          # Configuration files
 ├── scripts/          # Utility scripts
 ├── pyproject.toml    # Project configuration
+├── CLAUDE.md         # Claude Code guidance
 └── README.md
 ```
 
 ## Key Dependencies
 
-- **Data Processing**: pandas, numpy, scipy
-- **Machine Learning**: scikit-learn, xgboost, lightgbm, catboost
-- **Deep Learning**: torch, transformers
-- **Visualization**: matplotlib, seaborn, plotly
-- **API**: kaggle
-- **Optimization**: optuna
+- **Data Processing**: pandas 2.3.0, numpy 2.3.1, scipy 1.16.0
+- **Machine Learning**: scikit-learn 1.7.0, xgboost 3.0.2, lightgbm 4.6.0, catboost 1.2.8
+- **Deep Learning**: PyTorch 2.7.1+cu126, torchvision 0.22.1, transformers 4.53.0
+- **Visualization**: matplotlib 3.10.3, seaborn 0.13.2, plotly 6.2.0
+- **Development Environment**: Jupyter Lab 4.4.4, Jupyter Notebook 7.4.4
+- **API**: kaggle 1.7.4.5
+- **Optimization**: optuna 4.4.0
+- **Others**: tqdm, joblib, etc.
 
 ## Development Tools
 
 Install development packages:
 
 ```bash
-uv pip install -e ".[dev]"
+# Using uv (recommended)
+export PATH="$HOME/.local/bin:$PATH"
+uv sync --group dev
+
+# Or traditional method
+pip install -e ".[dev]"
 ```
 
-Code formatting:
+Code formatting and quality:
 
 ```bash
+# Format code
 black .
 isort .
+
+# Check code quality
+flake8 .
+
+# Run tests
+pytest
 ```
 
 ## Example Usage
@@ -91,37 +125,50 @@ isort .
 
 2. Begin EDA with Jupyter notebook:
    ```bash
-   jupyter notebook
+   jupyter lab
    ```
 
 3. Train models and generate submission files
+
+## Features
+
+- **UV High-Speed Package Management**: Fast dependency resolution and installation
+- **Kaggle API Integration**: Automated data downloading functionality
+- **GPU Support**: CUDA-enabled PyTorch included by default
+- **Complete Development Environment**: Jupyter Lab/Notebook and full development toolkit
+- **Professional Configuration**: Well-organized project structure
 
 ## Notes
 
 - Files in the `data/` directory are included in `.gitignore`
 - Keep Kaggle API credentials secure
 - Do not commit large data files to Git
+- Initial setup takes time due to large packages (PyTorch, CUDA libraries)
+- GPU-enabled PyTorch is installed by default; adjust if CUDA is not available
 
-## Features
+## Troubleshooting
 
-- **UV Package Manager**: Fast dependency resolution and installation
-- **Kaggle API Integration**: Automated data downloading
-- **Kaggle Notebook Compatibility**: Same dependencies as Kaggle environment
-- **Pre-configured Environment**: Ready-to-use setup for competitions
-- **Organized Structure**: Clean project layout for efficient workflow
+### uv command not found
+```bash
+export PATH="$HOME/.local/bin:$PATH"
+```
 
-## Requirements
+### Package installation interrupted
+```bash
+export PATH="$HOME/.local/bin:$PATH"
+uv sync --reinstall
+```
 
-- Python 3.10+
-- UV package manager
-- Kaggle account with API access
+### Reset virtual environment
+```bash
+rm -rf .venv
+bash scripts/setup_environment.sh
+```
 
-## Getting Started
+## Quick Start
 
 1. Clone or download this template
 2. Run `bash scripts/setup_environment.sh`
 3. Configure Kaggle API credentials
 4. Download your competition data
 5. Start coding in Jupyter notebooks!
-
-This template provides everything you need to quickly start participating in Kaggle competitions with a professional, organized approach.
